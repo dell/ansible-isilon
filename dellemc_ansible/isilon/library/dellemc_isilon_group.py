@@ -21,7 +21,7 @@ description:
   delete group,  get group, add users and remove users.
 
 extends_documentation_fragment:
-  - dellemc.dellemc_isilon
+  - dellemc_isilon.dellemc_isilon
 author:
 - P Srinivas Rao (@srinivas-rao5) srinivas_rao5@dell.com
 options:
@@ -225,7 +225,8 @@ group_details:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils import dellemc_ansible_utils as utils
+from ansible.module_utils.storage.dell \
+    import dellemc_ansible_isilon_utils as utils
 import re
 
 LOG = utils.get_logger('dellemc_isilon_group', log_devel=utils.logging.INFO)
@@ -260,9 +261,11 @@ class IsilonGroup(object):
                     "python library to be installed. Please install"
                     " the library before using these modules.")
 
-        if ISILON_SDK_VERSION_CHECK is not None:
-            LOG.error(ISILON_SDK_VERSION_CHECK)
-            self.module.fail_json(msg=ISILON_SDK_VERSION_CHECK)
+        if ISILON_SDK_VERSION_CHECK and \
+                not ISILON_SDK_VERSION_CHECK['supported_version']:
+            err_msg = ISILON_SDK_VERSION_CHECK['unsupported_version_message']
+            LOG.error(err_msg)
+            self.module.fail_json(msg=err_msg)
 
         self.api_client = utils.get_isilon_connection(self.module.params)
         self.api_instance = utils.isi_sdk.AuthApi(self.api_client)

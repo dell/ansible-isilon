@@ -1,7 +1,7 @@
 # Ansible Modules for Dell EMC Isilon
 The Ansible Modules for Dell EMC Isilon allow Data Center and IT administrators to use RedHat Ansible to automate and orchestrate the configuartion and management of Dell EMC Isilon arrays.
 
-The capabilities of the Ansible modules are managing users, groups, access zones, file system, nfs exports, smb shares, snapshots and snapshot schedules; and to gather facts from the array. The tasks can be executed by running simple playbooks written in yaml syntax.
+The capabilities of the Ansible modules are managing users, groups, access zones, file system, nfs exports, smb shares, snapshots, snapshot schedules and smart quotas; and to gather facts from the array. The tasks can be executed by running simple playbooks written in yaml syntax.
 
 ## Supported Platforms
   * Dell EMC Isilon Arrays version 8.0 and above.
@@ -24,10 +24,11 @@ The modules are written in such a way that all requests are idempotent and hence
   * Snapshot Schedule Module
   * NFS Module
   * SMB Module
+  * Smart Quota Module
   * Gather Facts Module
 
 ## Installation of SDK
-Install python sdk named 'isi-sdk-8-1-1'. It can be installed using pip based on appropiate python version.
+Install python sdk named 'isi-sdk-8-1-1'. It can be installed using pip, based on appropriate python version.
 
 ## Installation of Ansible Modules 
 ```
@@ -36,15 +37,17 @@ cd ansible-isilon/dellemc_ansible
 ```
 * For Python 2.7
 ```
-cp utils/dellemc_ansible_utils.py /usr/lib/python2.7/site-packages/ansible/module_utils/. 
-cp isilon/library/* /usr/lib/python2.7/site-packages/ansible/modules/storage/dellemc/. 
-cp doc_fragments/dellemc.py /usr/lib/python2.7/site-packages/ansible/plugins/doc_fragments/.
+mkdir -p /usr/lib/python2.7/site-packages/ansible/module_utils/storage/dell
+cp utils/* /usr/lib/python2.7/site-packages/ansible/module_utils/storage/dell 
+cp isilon/library/* /usr/lib/python2.7/site-packages/ansible/modules/storage/dellemc/
+cp doc_fragments/dellemc_isilon.py /usr/lib/python2.7/site-packages/ansible/plugins/doc_fragments/
 ```
 * For Python 3.5
 ```
-cp utils/dellemc_ansible_utils.py /usr/lib/python3.5/site-packages/ansible/module_utils/.
-cp isilon/library/* /usr/lib/python3.5/site-packages/ansible/modules/storage/dellemc/.
-cp doc_fragments/dellemc.py /usr/lib/python3.5/site-packages/ansible/plugins/doc_fragments/.
+mkdir -p /usr/lib/python3.5/site-packages/ansible/module_utils/storage/dell
+cp utils/* /usr/lib/python3.5/site-packages/ansible/module_utils/storage/dell
+cp isilon/library/* /usr/lib/python3.5/site-packages/ansible/modules/storage/dellemc/
+cp doc_fragments/dellemc_isilon.py /usr/lib/python3.5/site-packages/ansible/plugins/doc_fragments/
 ```
 
 ## Documentation

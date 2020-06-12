@@ -25,7 +25,7 @@ description:
 - Delete an existing SMB share.
 
 extends_documentation_fragment:
-  - dellemc.dellemc_isilon
+  - dellemc_isilon.dellemc_isilon
 author:
 - Arindam Datta (@arindam-emc) (arindam.datta@dell.com)
 
@@ -132,85 +132,85 @@ EXAMPLES = r'''
 
     - name: Create SMB share for system access zone
       dellemc_isilon_smb:
-      onefs_host: "{{onefs_host}}"
-      verify_ssl: "{{verify_ssl}}"
-      api_user: "{{api_user}}"
-      api_password: "{{api_password}}"
-      share_name: "{{name}}"
-      path: "{{system_az_path}}"
-      description: "{{description}}"
-      permissions:
-        - user_name: "{{system_az_user}}"
-          permission: "full"
-          permission_type: "allow"
-        - group_name: "{{system_az_group}}"
-          permission: "read"
-          permission_type: "allow"
-        - wellknown: "everyone"
-          permission: "read"
-          permission_type: "allow"
+        onefs_host: "{{onefs_host}}"
+        verify_ssl: "{{verify_ssl}}"
+        api_user: "{{api_user}}"
+        api_password: "{{api_password}}"
+        share_name: "{{name}}"
+        path: "{{system_az_path}}"
+        description: "{{description}}"
+        permissions:
+          - user_name: "{{system_az_user}}"
+            permission: "full"
+            permission_type: "allow"
+          - group_name: "{{system_az_group}}"
+            permission: "read"
+            permission_type: "allow"
+          - wellknown: "everyone"
+            permission: "read"
+            permission_type: "allow"
       state: "{{state_present}}"
 
     - name: Modify user permission for SMB share
       dellemc_isilon_smb:
-      onefs_host: "{{onefs_host}}"
-      verify_ssl: "{{verify_ssl}}"
-      api_user: "{{api_user}}"
-      api_password: "{{api_password}}"
-      share_name: "{{name}}"
-      path: "{{system_az_path}}"
-      description: "{{description}}"
-      permissions:
-        - user_name: "{{system_az_user}}"
-          permission: "full"
-          permission_type: "allow"
-        - group_name: "{{system_az_group}}"
-          permission: "write"
-          permission_type: "allow"
-        - wellknown: "everyone"
-          permission: "write"
-          permission_type: "deny"
-      state: "{{state_present}}"
+        onefs_host: "{{onefs_host}}"
+        verify_ssl: "{{verify_ssl}}"
+        api_user: "{{api_user}}"
+        api_password: "{{api_password}}"
+        share_name: "{{name}}"
+        path: "{{system_az_path}}"
+        description: "{{description}}"
+        permissions:
+          - user_name: "{{system_az_user}}"
+            permission: "full"
+            permission_type: "allow"
+          - group_name: "{{system_az_group}}"
+            permission: "write"
+            permission_type: "allow"
+          - wellknown: "everyone"
+            permission: "write"
+            permission_type: "deny"
+        state: "{{state_present}}"
 
     - name: Delete system access zone SMB share
       dellemc_isilon_smb:
-      onefs_host: "{{onefs_host}}"
-      verify_ssl: "{{verify_ssl}}"
-      api_user: "{{api_user}}"
-      api_password: "{{api_password}}"
-      share_name: "{{name}}"
-      state: "{{state_absent}}"
+        onefs_host: "{{onefs_host}}"
+        verify_ssl: "{{verify_ssl}}"
+        api_user: "{{api_user}}"
+        api_password: "{{api_password}}"
+        share_name: "{{name}}"
+        state: "{{state_absent}}"
 
     - name: Get SMB share details
       dellemc_isilon_smb:
-      onefs_host: "{{onefs_host}}"
-      verify_ssl: "{{verify_ssl}}"
-      api_user: "{{api_user}}"
-      api_password: "{{api_password}}"
-      share_name: "{{name}}"
-      state: "{{state_present}}"
+        onefs_host: "{{onefs_host}}"
+        verify_ssl: "{{verify_ssl}}"
+        api_user: "{{api_user}}"
+        api_password: "{{api_password}}"
+        share_name: "{{name}}"
+        state: "{{state_present}}"
 
     - name: Create SMB share for non system access zone
       dellemc_isilon_smb:
-      onefs_host: "{{onefs_host}}"
-      verify_ssl: "{{verify_ssl}}"
-      api_user: "{{api_user}}"
-      api_password: "{{api_password}}"
-      share_name: "{{name}}"
-      path: "{{non_system_az_path}}"
-      access_zone: "{{non_system_access_zone}}"
-      description: "{{description}}"
-      permissions:
-        - user_name: "{{non_system_az_user}}"
-          permission: "full"
-          permission_type: "allow"
-        - group_name: "{{non_system_az_group}}"
-          permission: "read"
-          permission_type: "allow"
-        - wellknown: "everyone"
-          permission: "read"
-          permission_type: "allow"
-      state: "{{state_present}}"
+        onefs_host: "{{onefs_host}}"
+        verify_ssl: "{{verify_ssl}}"
+        api_user: "{{api_user}}"
+        api_password: "{{api_password}}"
+        share_name: "{{name}}"
+        path: "{{non_system_az_path}}"
+        access_zone: "{{non_system_access_zone}}"
+        description: "{{description}}"
+        permissions:
+          - user_name: "{{non_system_az_user}}"
+            permission: "full"
+            permission_type: "allow"
+          - group_name: "{{non_system_az_group}}"
+            permission: "read"
+            permission_type: "allow"
+          - wellknown: "everyone"
+            permission: "read"
+            permission_type: "allow"
+        state: "{{state_present}}"
 
     - name: Modify description for an non system access zone SMB share
       dellemc_isilon_smb:
@@ -306,14 +306,15 @@ smb_details:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils import dellemc_ansible_utils as utils
+from ansible.module_utils.storage.dell \
+    import dellemc_ansible_isilon_utils as utils
 import logging
 import re
 
 LOG = utils.get_logger('dellemc_isilon_smb', log_devel=logging.INFO)
 
 HAS_ISILON_SDK = utils.has_isilon_sdk()
-ISILON_VERSION_CHECK = utils.isilon_sdk_version_check()
+ISILON_SDK_VERSION_CHECK = utils.isilon_sdk_version_check()
 
 
 class IsilonSMB(object):
@@ -339,9 +340,11 @@ class IsilonSMB(object):
                 ' the library before using these '
                 'modules.')
 
-        if ISILON_VERSION_CHECK is not None:
-            LOG.error(ISILON_VERSION_CHECK)
-            self.module.fail_json(msg=ISILON_VERSION_CHECK)
+        if ISILON_SDK_VERSION_CHECK and \
+                not ISILON_SDK_VERSION_CHECK['supported_version']:
+            err_msg = ISILON_SDK_VERSION_CHECK['unsupported_version_message']
+            LOG.error(err_msg)
+            self.module.fail_json(msg=err_msg)
 
         self.api_client = utils.get_isilon_connection(
             self.module.params)

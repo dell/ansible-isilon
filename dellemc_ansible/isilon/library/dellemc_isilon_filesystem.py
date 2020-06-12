@@ -25,7 +25,7 @@ description:
   Modify a Filesystem (Quota, ACLs).
 
 extends_documentation_fragment:
-  - dellemc.dellemc_isilon
+  - dellemc_isilon.dellemc_isilon
 
 author:
 - Prashant Rakheja (@prashant-dell) <prashant.rakheja@dell.com>
@@ -241,7 +241,8 @@ EXAMPLES = r'''
 
 import logging
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils import dellemc_ansible_utils as utils
+from ansible.module_utils.storage.dell \
+    import dellemc_ansible_isilon_utils as utils
 import re
 
 RETURN = r'''
@@ -326,7 +327,7 @@ filesystem_snapshots:
 LOG = utils.get_logger('dellemc_isilon_filesystem',
                        log_devel=logging.INFO)
 HAS_ISILON_SDK = utils.has_isilon_sdk()
-ISILON_VERSION_CHECK = utils.isilon_sdk_version_check()
+ISILON_SDK_VERSION_CHECK = utils.isilon_sdk_version_check()
 
 
 class IsilonFileSystem(object):
@@ -351,9 +352,11 @@ class IsilonFileSystem(object):
                                       ' the library before using these '
                                       'modules.')
 
-        if ISILON_VERSION_CHECK is not None:
-            self.module.fail_json(msg=ISILON_VERSION_CHECK)
-            LOG.error(ISILON_VERSION_CHECK)
+        if ISILON_SDK_VERSION_CHECK and \
+                not ISILON_SDK_VERSION_CHECK['supported_version']:
+            err_msg = ISILON_SDK_VERSION_CHECK['unsupported_version_message']
+            LOG.error(err_msg)
+            self.module.fail_json(msg=err_msg)
 
         self.api_client = utils.get_isilon_connection(self.module.params)
         self.isi_sdk = utils.get_isilon_sdk()
