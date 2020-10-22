@@ -30,31 +30,11 @@ The modules are written in such a way that all requests are idempotent and hence
 ## Installation of SDK
 Install python sdk named 'isi-sdk-8-1-1'. It can be installed using pip, based on appropriate python version.
 
-## Installation of Ansible Modules 
-```
-git clone https://github.com/dell/ansible-isilon.git
-cd ansible-isilon/dellemc_ansible
-```
-* For Python 2.7
-```
-mkdir -p /usr/lib/python2.7/site-packages/ansible/module_utils/storage/dell
-cp utils/* /usr/lib/python2.7/site-packages/ansible/module_utils/storage/dell 
-cp isilon/library/* /usr/lib/python2.7/site-packages/ansible/modules/storage/dellemc/
-cp doc_fragments/dellemc_isilon.py /usr/lib/python2.7/site-packages/ansible/plugins/doc_fragments/
-```
-* For Python 3.5
-```
-mkdir -p /usr/lib/python3.5/site-packages/ansible/module_utils/storage/dell
-cp utils/* /usr/lib/python3.5/site-packages/ansible/module_utils/storage/dell
-cp isilon/library/* /usr/lib/python3.5/site-packages/ansible/modules/storage/dellemc/
-cp doc_fragments/dellemc_isilon.py /usr/lib/python3.5/site-packages/ansible/plugins/doc_fragments/
-```
-
 ## Documentation
-Check documentation from each module's file in /ansible-isilon/dellemc_ansible/isilon/library/
+Check documentation from each module's file in /library/
 
 ## Examples
-Check examples from each module's file in /ansible-isilon/dellemc_ansible/isilon/library/
+Check examples from each module's file in /library/
 
 ## Results
 Each module returns the updated state and details of the entity. 
